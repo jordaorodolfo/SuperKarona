@@ -1,5 +1,7 @@
 colorscheme zenburn
-set global aligntab 2
+set global tabstop 2
+set global indentwidth 2
+set global aligntab yes
 
 hook global WinCreate .* %{addhl number_lines}
 
@@ -11,16 +13,16 @@ hook global InsertChar j %{ try %{
 def find -params 1 -shell-candidates %{ find -type f } %{ edit %arg{1} }
 
 
-def ide %{
-    rename-client main
-    set global jumpclient main
-
-    new rename-client tools
-    set global toolsclient tools
-
-    new rename-client docs
-    set global docsclient docs
-}
+#def ide %{
+#    rename-client main
+#    set global jumpclient main
+#
+#    new rename-client tools
+#    set global toolsclient tools
+#
+#    new rename-client docs
+#    set global docsclient docs
+#}
 
 
 def -docstring "This command opens the buffer commander mode." buffer-commander %{
