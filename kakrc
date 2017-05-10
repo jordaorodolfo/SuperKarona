@@ -6,7 +6,7 @@ set global autoreload yes
 hook global WinCreate .* %{addhl number_lines}
 
 hook global InsertChar j %{ try %{
-    exec -draft hH <a-k>kj<ret> d
+    exec -draft hH <a-k>jj<ret> d
     exec <esc>
 }}
 
@@ -58,8 +58,8 @@ def -docstring "This command opens the files comander mode" file-commander %{
 #map global normal , <space>
 map global normal '#' :comment-line<ret>
 
-map -docstring "Paste the contents from clipboard" global user p '!xclip -o<ret>'
-map -docstring "Yank the contents to clipboard" global user y '<a-|>xclip -i<ret>; :echo -color Information "copied selection to X11 clipboard"<ret>'
+map -docstring "Paste the contents from clipboard" global user p '!xclip -sel clip -o<ret>'
+map -docstring "Yank the contents to clipboard" global user y '<a-|>xclip -sel clip -i<ret>; :echo -color Information "copied selection to X11 clipboard"<ret>'
 
 # map -docstring "Edit the Kakrc file" global user c ':e ~/.config/kak/kakrc<ret>'
 
