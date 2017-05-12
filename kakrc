@@ -10,19 +10,22 @@ hook global InsertChar j %{ try %{
     exec <esc>
 }}
 
+hook global InsertCompletionShow .* %{ map window insert <tab> <c-n>; map window insert <backtab> <c-p> }
+hook global InsertCompletionHide .* %{ unmap window insert <tab> <c-n>; unmap window insert <backtab> <c-p> }
+
 def find -params 1 -shell-candidates %{ find -type f } %{ edit %arg{1} }
 
 
-#def ide %{
-#    rename-client main
-#    set global jumpclient main
-#
-#    new rename-client tools
-#    set global toolsclient tools
-#
-#    new rename-client docs
-#    set global docsclient docs
-#}
+def ide %{
+rename-client main
+set global jumpclient main
+
+new rename-client tools
+set global toolsclient tools
+
+new rename-client docs
+set global docsclient docs
+}
 
 
 def -docstring "This command opens the buffer commander mode." buffer-commander %{
