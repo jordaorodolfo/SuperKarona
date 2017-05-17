@@ -6,24 +6,26 @@ set global autoreload yes
 hook global WinCreate .* %{addhl number_lines}
 
 hook global InsertChar j %{ try %{
-    exec -draft hH <a-k>kj<ret> d
+    exec -draft hH <a-k>jj<ret> d
     exec <esc>
 }}
+
+hook global InsertCompletionShow .* %{ map window insert <tab> <c-n>; map window insert <backtab> <c-p> }
+hook global InsertCompletionHide .* %{ unmap window insert <tab> <c-n>; unmap window insert <backtab> <c-p> }
 
 def find -params 1 -shell-candidates %{ find -type f } %{ edit %arg{1} }
 
 
-#def ide %{
-#    rename-client main
-#    set global jumpclient main
-#
-#    new rename-client tools
-#    set global toolsclient tools
-#
-#    new rename-client docs
-#    set global docsclient docs
-#}
+def ide %{
+rename-client main
+set global jumpclient main
 
+new rename-client tools
+set global toolsclient tools
+
+new rename-client docs
+set global docsclient docs
+}
 
 def -docstring "This command opens the buffer commander mode." buffer-commander %{
 	on-key %{%sh{case "$kak_key" in
@@ -54,14 +56,10 @@ def -docstring "This command opens the files comander mode" file-commander %{
 }
 
 
-#map global normal <space> ,
-#map global normal , <space>
 map global normal '#' :comment-line<ret>
 
-map -docstring "Paste the contents from clipboard" global user p '!xclip -o<ret>'
-map -docstring "Yank the contents to clipboard" global user y '<a-|>xclip -i<ret>; :echo -color Information "copied selection to X11 clipboard"<ret>'
-
-# map -docstring "Edit the Kakrc file" global user c ':e ~/.config/kak/kakrc<ret>'
+map -docstring "Paste the contents from clipboard" global user p '!xclip -sel clip -o<ret>'
+map -docstring "Yank the contents to clipboard" global user y '<a-|>xclip -sel clip -i<ret>; :echo -color Information "copied selection to X11 clipboard"<ret>'
 
 map -docstring "Manage buffers" global user b ":buffer-commander<ret>"
 map -docstring "Manage files" global user f ':file-commander<ret>'
