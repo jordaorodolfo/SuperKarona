@@ -6,12 +6,12 @@ set global autoreload yes
 hook global WinCreate .* %{addhl number_lines}
 
 hook global InsertChar j %{ try %{
-    exec -draft hH <a-k>jj<ret> d
+    exec -draft hH <a-k>kj<ret> d
     exec <esc>
 }}
 
-hook global InsertCompletionShow .* %{ map window insert <tab> <c-n>; map window insert <backtab> <c-p> }
-hook global InsertCompletionHide .* %{ unmap window insert <tab> <c-n>; unmap window insert <backtab> <c-p> }
+# hook global InsertCompletionShow .* %{ map window insert <tab> <c-n>; map window insert <backtab> <c-p> }
+# hook global InsertCompletionHide .* %{ unmap window insert <tab> <c-n>; unmap window insert <backtab> <c-p> }
 
 def find -params 1 -shell-candidates %{ find -type f } %{ edit %arg{1} }
 
@@ -55,6 +55,22 @@ def -docstring "This command opens the files comander mode" file-commander %{
 	}
 }
 
+def -docstring "This command opens the version control mode" vcs-commander %{
+	on-key %{%sh{case "$kak_key" in
+		"a") echo exec ":git<space>add<ret>";;
+		"c") echo exec ":git<space>commit<ret>";;
+		"p") echo exec ":git<space>push<ret>" ;;
+		"P") echo exec ":git<space>pull<ret>" ;;
+		esac
+	}}
+	info -title "Version Control" %{
+    -a add
+    -c commit
+    -p push
+    -P pull
+	}
+}
+
 
 map global normal '#' :comment-line<ret>
 
@@ -63,3 +79,4 @@ map -docstring "Yank the contents to clipboard" global user y '<a-|>xclip -sel c
 
 map -docstring "Manage buffers" global user b ":buffer-commander<ret>"
 map -docstring "Manage files" global user f ':file-commander<ret>'
+map -docstring "Version Control" global user g ':vcs-commander<ret>'
