@@ -15,7 +15,6 @@ hook global InsertChar j %{ try %{
 
 def find -params 1 -shell-candidates %{ find -type f } %{ edit %arg{1} }
 
-
 def ide %{
 rename-client main
 set global jumpclient main
@@ -70,7 +69,6 @@ def -docstring "This command opens the version control mode" vcs-commander %{
     -P pull
 	}
 }
-
 
 map global normal '#' :comment-line<ret>
 
